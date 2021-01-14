@@ -14,7 +14,7 @@ enum
 int main(void)
 {
     size_t running_app_nun;
-    int cost_sum = 0, required_memory, min_cost = INT_MAX;
+    int cost_sum = 0, required_memory;
     int memory[MAX_APP_NUM] = { 0, };
     int cost[MAX_APP_NUM] = { 0, };
     cin >> running_app_nun >> required_memory;
@@ -27,21 +27,31 @@ int main(void)
         cin >> cost[i];
         cost_sum += cost[i];
     }
+    // dp[i][j] == ith 앱까지 확인시 최대 j의 cost로 비활성화 할 수 있는 확보가능한 최대 메모리
+    // j를 출력해야 한다.
     vector<vector<int> > dp(running_app_nun + 1, vector<int>(required_memory, 0));
     for (size_t i = 1; i <= running_app_nun; i++)
     {
         for (int j = 0; j <= cost_sum; j++)
         {
+            if(j < cost[i]) continue;
             dp[i][j] = max(dp[i - 1][j - cost[i]] + memory[i], dp[i - 1][j]);
         }
     }
+    int ans = 0;
     for(size_t i = 1 ; i <= running_app_nun ; i++)
     {
-        for(int j = required_memory ; j <= cost_sum ; j++)
+        for(int j = 0 ; j <= cost_sum ; j++)
         {
-            if(min_cost > dp[i][j]) min_cost = dp[i][j];
+            // 확보가능한 최대 메모리가 우리가 원하는 메모리인 순간이 최소 cost가 되는 것이다.
+            if(dp[i][j] >= required_memory)
+            {
+                ans = j;
+                goto fin;
+            }
         }
     }
-    cout << min_cost;
+fin:
+    cout << ans;
     return 0;
 }
