@@ -27,7 +27,7 @@ int main(void)
         cin >> cost[i];
         cost_sum += cost[i];
     }
-    vector<vector<int>> dp(running_app_nun + 1, vector<int>(required_memory, 0));
+    vector<vector<int> > dp(running_app_nun + 1, vector<int>(required_memory, 0));
     for (size_t i = 1; i <= running_app_nun; i++)
     {
         for (int j = 0; j <= cost_sum; j++)
