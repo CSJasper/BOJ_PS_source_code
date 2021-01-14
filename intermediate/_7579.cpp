@@ -1,50 +1,47 @@
-#include <iostream>
-#include <vector>
 #include <algorithm>
 #include <climits>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
-enum { MAX_APP_NUM = 101, MAX_MEM_NEEDS = 10000000 };
+enum
+{
+    MAX_APP_NUM = 101,
+    MAX_COST = 100 * 100 + 1
+};
 
 int main(void)
 {
-    ios::sync_with_stdio(0); cin.tie(0), cout.tie(0);
-    int runng_app_num, memory_needs, memory_sum = 0, max_cost = INT_MIN;
-    int memory[MAX_APP_NUM] = {0, };
-    int cost[MAX_APP_NUM] = {0, };
-    cin >> runng_app_num >> memory_needs;
-    for(int i = 1 ; i <= runng_app_num ; i++)
+    size_t running_app_nun;
+    int cost_sum = 0, required_memory, min_cost = INT_MAX;
+    int memory[MAX_APP_NUM] = { 0, };
+    int cost[MAX_APP_NUM] = { 0, };
+    cin >> running_app_nun >> required_memory;
+    for (size_t i = 1; i <= running_app_nun; i++)
     {
         cin >> memory[i];
-        memory_sum += memory[i];
     }
-    for(int i = 1 ; i < runng_app_num ; i++)
+    for (size_t i = 1; i <= running_app_nun; i++)
     {
         cin >> cost[i];
-        if(max_cost < cost[i]) max_cost = cost[i];
+        cost_sum += cost[i];
     }
-    vector < vector <int> > dp(runng_app_num + 1, vector <int> (memory_sum,max_cost));
-    for(int i = 1 ; i <= runng_app_num ; i++)
+    vector<vector<int>> dp(running_app_nun + 1, vector<int>(required_memory, 0));
+    for (size_t i = 1; i <= running_app_nun; i++)
     {
-        for(int j = 0 ; j <= memory_sum ; j++)
+        for (int j = 0; j <= cost_sum; j++)
         {
-            if(j < memory[i]) continue;
-            else
-            {
-                dp[i][j] = min(dp[i-1][j-memory[i]] + cost[i], dp[i-1][j]);
-            }
-            
+            dp[i][j] = max(dp[i - 1][j - cost[i]] + memory[i], dp[i - 1][j]);
         }
     }
-    int min = INT_MAX;
-    for(int i = 1 ; i <= runng_app_num ; i++)
+    for(size_t i = 1 ; i <= running_app_nun ; i++)
     {
-        for(int j = memory_needs ; j <= memory_sum ; j++)
+        for(int j = required_memory ; j <= cost_sum ; j++)
         {
-            if(min > dp[i][j]) min = dp[i][j];
+            if(min_cost > dp[i][j]) min_cost = dp[i][j];
         }
     }
-    cout << min;
+    cout << min_cost;
     return 0;
 }
