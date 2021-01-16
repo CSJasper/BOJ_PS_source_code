@@ -41,6 +41,7 @@ int main(void)
     return 0;
 }
 
+//
 void find_binary(int length, int upper_bound, long long order, string& str)
 {
     // 이진수의 길이가 0이면
