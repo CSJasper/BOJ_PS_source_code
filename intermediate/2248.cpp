@@ -41,7 +41,7 @@ int main(void)
     return 0;
 }
 
-//
+// order 번째로 나오는 이진수를 str에 저장하는 프로그램
 void find_binary(int length, int upper_bound, long long order, string& str)
 {
     // 이진수의 길이가 0이면
