@@ -8,24 +8,18 @@ int main(void)
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr), cout.tie(nullptr);
-    int decomp_sum = 0;
     int generator = 0;
     int input;
     cin >> input;
     for(int i = 1 ; i <= input ; i++)
     {
-        if(i == 198)
-        {
-            sum_each_num(i, decomp_sum);
-        }
-
+        int decomp_sum = i;
+        sum_each_num(i, decomp_sum);
         if(decomp_sum == input)
         {
             generator = i;
             break;
         }
-        else decomp_sum = 0;
-
     }
     cout << generator;
     return 0;
