@@ -1,4 +1,4 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/jasper/Desktop/WorkSpace/algo_study/intermediate
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/jasper/Desktop/WorkSpace/algo_study/intermediate/Clion_intermediate
 -- The C compiler identification is AppleClang 11.0.3.11030032
 -- The CXX compiler identification is AppleClang 11.0.3.11030032
 -- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc
@@ -15,4 +15,4 @@
 -- Detecting CXX compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/jasper/Desktop/WorkSpace/algo_study/intermediate/cmake-build-debug
+-- Build files have been written to: /Users/jasper/Desktop/WorkSpace/algo_study/intermediate/Clion_intermediate/cmake-build-debug
