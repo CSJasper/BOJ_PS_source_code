@@ -15,6 +15,8 @@ ll desired_candy_num[MAX_FRIENDS_NUM] = { 0, };
 
 int main(void)
 {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr), cout.tie(nullptr);
     ll candy_num,  unaffordable, wrath = 0;
     size_t friends_num;
     cin >> candy_num >> friends_num;
