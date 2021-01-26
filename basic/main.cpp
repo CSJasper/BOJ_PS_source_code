@@ -1,61 +1,54 @@
 #include <iostream>
-#include <algorithm>
 
 using namespace std;
+using ll = unsigned long long;
 
 enum
 {
-    MAX_LENGTH = 51
+    DIVIDER = 1000000007,
+    MAX_LENGTH = 1516,
+    REMAINDER_NUM = 3
 };
 
-typedef struct _board_size
-{
-    size_t N;
-    size_t M;
-}board_size_t;
-
-// index 0 base string array
-char board[MAX_LENGTH][MAX_LENGTH] = { 0, };
-size_t b_odd_w_even = 0 , b_even_w_odd = 0, ans = 1e9;
-
+ll modulo_num[MAX_LENGTH][REMAINDER_NUM] = { 0, };
 
 int main(void)
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr), cout.tie(nullptr);
-    board_size_t size;
-    cin >> size.N >> size.M;
-    for(size_t i = 0 ; i < size.M ; i++)
+    size_t N;
+    cin >> N;
+    for(size_t k = 0 ; k < REMAINDER_NUM ; k++)
     {
-        fgets(board[i],MAX_LENGTH - 1, stdin);
+        modulo_num[0][k] = 0;
+        modulo_num[1][k] = 0;
     }
-    for(size_t starting_column = 0 ; starting_column < size.N - 7 ; starting_column++)
+
+    modulo_num[2][0] = 1, modulo_num[2][1] = 1, modulo_num[2][2] = 0;
+
+    for(size_t current_length = 3 ; current_length <= N ; current_length++)
     {
-        for(size_t starting_row = 0 ; starting_row < size.M - 7 ; starting_row++)
-        {
-            b_odd_w_even = 0; b_even_w_odd = 0;
-            for(size_t current_column = starting_column ; current_column < starting_column + 8
-                    ; current_column++)
-            {
-                for(size_t current_row = starting_row ; current_row < starting_row + 8
-                        ; current_row++)
-                {
-                    if(board[current_row][current_column] = 'W')
-                    {
-                        if((current_column + current_row) % 2 == 0) b_even_w_odd++;
-                        else b_odd_w_even++;
-                    }
-                        // 만약 현재 보고있는 곳이 검은색이라면
-                    else
-                    {
-                        if((current_column + current_row) % 2 == 0) b_odd_w_even++;
-                        else b_even_w_odd++;
-                    }
-                }
-                ans = min(ans, b_even_w_odd, b_odd_w_even);
-            }
-        }
+        modulo_num[current_length][0]
+                +=
+                (
+                        modulo_num[current_length - 2][0] * 2 +
+                        modulo_num[current_length - 2][1] +
+                        modulo_num[current_length - 2][2] +
+                        modulo_num[current_length - 1][1] +
+                        modulo_num[current_length - 1][2]
+                ) % DIVIDER;
+        modulo_num[current_length][1]
+                +=
+                (
+                        modulo_num[current_length - 1][0] +
+                        modulo_num[current_length - 1][2]
+                ) % DIVIDER;
+        modulo_num[current_length][2]
+                +=
+                (
+                        modulo_num[current_length - 1][0] +
+                        modulo_num[current_length - 1][1]
+                ) % DIVIDER;
+
     }
-    cout << ans;
+    cout << modulo_num[N][0] % DIVIDER;
     return 0;
 }
