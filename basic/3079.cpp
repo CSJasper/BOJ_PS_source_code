@@ -23,7 +23,7 @@ int main(void)
     {
         sum = 0;
         mid = (low + high) / 2;
-        for(size_t i = 0 ; i < people_num ; i++)
+        for(size_t i = 0 ; i < checker_num ; i++)
         {
             sum += mid / (long long)req_time[i];  // 총 mid의 시간으로 심사가능한 최대 사람의 수
             if(sum >= people_num) break; // 예측한 시간이 차고 넘친다는 의미 더 이상 볼 필요도 없이 걍 예측한 시간을 낮춰봐야 한다.
@@ -38,7 +38,7 @@ int main(void)
         {
             low = mid + 1;
         }
-
+        
     }
     cout << ans;
     return 0;
