@@ -42,7 +42,7 @@ int main(void)
                 ans[cnt++] = (ll)sqrt(G + square[left]);
             }
         }
-
+        
     }
     if(cnt == 0) cout << -1;
     else
@@ -52,7 +52,7 @@ int main(void)
             cout << ans[i] << '\n';
         }
     }
-
+    
     return 0;
 }
 
@@ -61,13 +61,13 @@ bool isSquare(ll num)
     ll tmp;
     switch (num & 0x0f)
     {
-        case 0:
-        case 1:
-        case 4:
-        case 9:
-            tmp = (ll)(sqrt((double)num) + 0.5);
-            return tmp * tmp == num;
-        default:
-            return false;
+    case 0:
+    case 1:
+    case 4:
+    case 9:
+        tmp = (ll)(sqrt((double)num) + 0.5);
+        return tmp * tmp == num;
+    default:
+        return false;
     }
 }

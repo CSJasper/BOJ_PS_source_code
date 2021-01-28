@@ -4,8 +4,8 @@ using namespace std;
 
 enum
 {
-    MAX_PEOPLE_NUM = 100000,
-    MAX_CHECKER_NUM = 1000000000
+    MAX_PEOPLE_NUM = 1000000000,
+    MAX_CHECKER_NUM = 100000
 };
 
 size_t req_time[MAX_CHECKER_NUM] = {0,};
