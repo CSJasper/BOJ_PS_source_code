@@ -1,52 +1,93 @@
 #include <iostream>
-#include <cmath>
+#include <string>
+#include <stack>
+
 using namespace std;
-using ll = long long;
 
 enum
 {
-    APPROX_MAX_ROOT = 1000,
-    APPROX_MAX_LENGTH = 1002
+    MAX_FIGURE_NUM = 27
 };
 
-ll square[APPROX_MAX_LENGTH];
-ll ans[APPROX_MAX_LENGTH];
+double value[MAX_FIGURE_NUM];
 
 int main(void)
 {
-    for(ll i = 1 ; i <= APPROX_MAX_ROOT ; i++)
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr), cout.tie(nullptr);
+    size_t figure_num, figure_cnt = 0;
+    double result = 0;
+    bool is_first = true;
+    cin >> figure_num;
+    string str;
+    stack<char> st;
+    cin >> str;
+    for(size_t i = 0 ; i < figure_num ; i++)
     {
-        square[i] = i * i;
+        cin >> value[i];
     }
-    size_t left = 1, right = 1, G, diff, cnt = 0;
-    cin >> G;
-    while(right <= APPROX_MAX_ROOT + 1 || left <= APPROX_MAX_ROOT + 1)
+    for(size_t i = 0 ; i < str.length() ; i++)
     {
-        diff = square[right] - square[left];
-        if(diff > G)
+        if('A' <= str[i] && 'Z' >= str[i])  // 피연산자라면 스택에 삽입
         {
-            diff -= square[left++];
+            st.push(str[i]);
         }
-        else if(diff < G)
+        else  // 연산자라면 두 피연산자 꺼내서 연산 후 결과를 저장하고 직전 피연산자를 다시 넣는다
         {
-            diff += square[right++];
-        }
-        else  // 차이와 G가 같을 때
-        {
-            // (현재 몸무게)^2 = G + (기억하는 몸무게)^2
-            // 현재 몸무게가 자연수가 아닌 경우는 제외해야 한다.
-            // 제곱수의 차이를 확인하는 확인했기 때문에 현재 몸무게가 자연수가 아닌 경우는 절대 없다.
-            ans[cnt++] = (ll)(sqrt(square[right]));
+            if(is_first)
+            {
+                char op2 = st.top();
+                st.pop();
+                char op1 = st.top();
+                st.pop();
+                double operand2 = value[op2 - 'A'];
+                double operand1 = value[op1 - 'A'];
+                if(str[i] == '+')
+                {
+                    result += operand1 + operand2;
+                }
+                if(str[i] == '-')
+                {
+                    result += operand1 - operand2;
+                }
+                if(str[i] == '*')
+                {
+                    result += operand1 * operand2;
+                }
+                if(str[i] == '/')
+                {
+                    result += operand1 / operand2;
+                }
+                is_first = false;
+            }
+            else
+            {
+                char op = st.top();
+                st.pop();
+                double operand = value[op - 'A'];
+                if(str[i] == '+')
+                {
+                    result += operand;
+                }
+                if(str[i] == '-')
+                {
+                    result -= operand;
+                }
+                if(str[i] == '*')
+                {
+                    result *= operand;
+                }
+                if(str[i] == '/')
+                {
+                    result /= operand;
+                }
+            }
+
         }
 
     }
-    if(cnt == 0) cout << -1;
-    else
-    {
-        for(size_t i = 0 ; i < cnt ; i++)
-        {
-            cout << ans[i] << '\n';
-        }
-    }
+    cout << fixed;
+    cout.precision(2);
+    cout << result;
     return 0;
 }
