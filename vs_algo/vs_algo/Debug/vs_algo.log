@@ -1,3 +1,4 @@
-﻿  test.cpp
-\\Mac\Home\Desktop\WorkSpace\algo_study\vs_algo\vs_algo\test.cpp(19,10): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  main.c
+\\Mac\Home\Desktop\WorkSpace\algo_study\vs_algo\vs_algo\main.c(14,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+\\Mac\Home\Desktop\WorkSpace\algo_study\vs_algo\vs_algo\main.c(28): warning C4715: 'is_pal': 모든 제어 경로에서 값을 반환하지는 않습니다.
   vs_algo.vcxproj -> \\Mac\Home\Desktop\WorkSpace\algo_study\vs_algo\Debug\vs_algo.exe
