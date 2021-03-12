@@ -12,12 +12,12 @@ enum
 
 class Nums
 {
-private:
+    private:
 
     unsigned primeCnt[MAX_NAT_SIZE];
     int mNum;
 
-public:
+    public:
     //생성자
     Nums(int n)
     {
@@ -78,7 +78,7 @@ void Nums::CountPrimeFactor(void)
             primeCnt[i]++;
         }
     }
-    if(num > 1) primeCnt[num]++;  // 소수였다면 0이 안될것이다.
+    if(num > 1) primeCnt[num]++;  // 소수였다면 0이 안될것이다. 
 }
 
 void Nums::PrintPrimeFactor(void)
