@@ -1,101 +1,203 @@
 #include <iostream>
-#include <string>
-
-// timeComplexity???
-
-using namespace std;
+#include <cstring>
 
 enum
 {
-    MAX_NAT_SIZE = 5000001
+    MAX_STR_LENGTH = 1024
 };
 
-class Nums
+class book
 {
 private:
-
-    unsigned primeCnt[MAX_NAT_SIZE];
-    int mNum;
+    unsigned mPages;
+    char mAuthor[MAX_STR_LENGTH];
+    char mPublishedDate[MAX_STR_LENGTH];
+    unsigned mISBN;
+    unsigned char mEdition;
+    unsigned int* mCurrentPages;
+    bool isRead;
 
 public:
-    //생성자
-    Nums(int n)
+    book(const unsigned pages, const char* author, const char* pdate, const unsigned isbn, const unsigned char edition)
     {
-        mNum = n;
-        fill(primeCnt, primeCnt + mNum, 0);
+        this->mPages = pages;
+        strcpy(this->mAuthor, author);
+        strcpy(this->mPublishedDate, pdate);
+        this->mISBN = isbn;
+        this->mEdition = edition;
+        this->isRead = false;
     }
 
-    // getter-setter method
-    unsigned* GetPrimeCnt(void);
-    int& GetNum(void);
+    ~book()
+    {
+        if(isRead)
+        {
+            free(this->mCurrentPages);
+            this->mCurrentPages = NULL;  // free된 포인터를 다시 free하지 않도록 NULL로 설정 (free(NULL) 하면 오류가 난다)
+        }
+    }
 
-    // internal method
-    void CountPrimeFactor(void);
-    void PrintPrimeFactor(void);
+    unsigned& getPages(void);
+    char* getAuthor_p(void);
+    char* getPublishedDate_p(void);
+    unsigned& getISBN(void);
+    unsigned char& getEditionNum(void);
+    unsigned int* getCurrentPages_p(void);
+    bool& getReadFlag(void);
+
+
+    void setPages(const unsigned totalPages);
+    void setAuthor(const char* name_p);
+    void setPublishedDate(const char* date_p);
+    void setISBN(const unsigned isbn);
+    void setEditionNum(const unsigned char edition);
+    void setCurrentPages(const unsigned currPages, const unsigned int maxPages);
+    void setReadFlag(void);
+    void resetReadFlag(void);
 
 };
+
+typedef struct book_t
+{
+    unsigned mPages;
+    char mAuthor[MAX_STR_LENGTH];
+    char mPublishedDate[MAX_STR_LENGTH];
+    unsigned mISBN;
+    unsigned char mEdition;
+    unsigned int current_pages;
+    bool isRead;
+}book_t;
 
 int main(void)
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-    unsigned nat_num;
-    cin >> nat_num;
-    for(unsigned i = 0 ; i < nat_num ; i++)
+    char name[MAX_STR_LENGTH] = "Jasper";
+    char date[MAX_STR_LENGTH] = "2021-04-11";
+    unsigned isbn = 0x12345;
+    unsigned char edition = 3;
+    unsigned int reading_pages = 0;
+    unsigned total_pages = 0;
+
+    std::cout << "Enter the total pages of your book\n";
+    std::cin >> total_pages;
+
+    book myBook(total_pages, name,date,isbn, edition);
+
+    book_t mybook_t;
+    mybook_t.mPages = total_pages;
+    strcpy(mybook_t.mAuthor, name);
+    strcpy(mybook_t.mPublishedDate, date);
+    mybook_t.mISBN = isbn;
+    mybook_t.mEdition = edition;
+
+    while(true)
     {
-        int input;
-        cin >> input;
-        Nums number(input);
-        number.PrintPrimeFactor();
-        cout << '\n';
+        std::cout << "Enter the Pages you are reading";
+        std::cin >> reading_pages;
+
+        if(reading_pages == 0 || reading_pages > total_pages)
+        {
+            break;
+        }
+
+        myBook.setReadFlag();
+        mybook_t.isRead = true;
+
+        myBook.setCurrentPages(reading_pages, total_pages);
+        mybook_t.current_pages = reading_pages;
+
     }
+    myBook.resetReadFlag();
+    mybook_t.isRead = false;
+
     return 0;
 }
-
-unsigned* Nums::GetPrimeCnt(void)
+unsigned& book::getPages(void)
 {
-    return primeCnt;
-}
+    return this->mPages;
+};
 
-int& Nums::GetNum(void)
+char* book::getAuthor_p(void)
 {
-    return mNum;
-}
+    return this->mAuthor;
+};
 
-void Nums::CountPrimeFactor(void)
+char* book::getPublishedDate_p(void)
 {
-    //소인수를 세는 함수
-    int num = GetNum();
-    unsigned* primeCnt = GetPrimeCnt();
-    // 2부터 숫자를 증가시키면서 나눠본다. num의 제곱근 이하까지 나눠본다.
-    // 만약 나누어진다면 안나눠질 때까지 나눈다.
-    for(int i = 2 ; i * i <= num ; i++)
+    return this->mPublishedDate;
+};
+
+unsigned& book::getISBN(void)
+{
+    return this->mISBN;
+};
+
+unsigned char& book::getEditionNum(void)
+{
+    return this->mEdition;
+};
+
+unsigned int* book::getCurrentPages_p(void)
+{
+    return this->mCurrentPages;
+};
+
+bool& book::getReadFlag(void)
+{
+    return this->isRead;
+};
+
+void book::setPages(const unsigned totalPages)
+{
+    unsigned& pages = getPages();
+    pages = totalPages;
+};
+
+void book::setAuthor(const char* name_p)
+{
+    char* name = getAuthor_p();
+    strcpy(name, name_p);
+};
+
+void book::setPublishedDate(const char* date_p)
+{
+    char* date = getPublishedDate_p();
+    strcpy(date, date_p);
+};
+
+void book::setISBN(const unsigned isbn)
+{
+    unsigned& code = getISBN();
+    code = isbn;
+};
+
+void book::setEditionNum(const unsigned char edition)
+{
+    unsigned char& eNum = getEditionNum();
+    eNum = edition;
+};
+
+void book::setCurrentPages(const unsigned currPages, const unsigned int maxPages)
+{
+    bool& readFlag = getReadFlag();
+    readFlag = true;
+    unsigned int* curr = getCurrentPages_p();
+    curr = (unsigned int*)malloc(sizeof(unsigned int*));
+    if(currPages > maxPages)
     {
-        while(num % i == 0)  // num이 i를 인수로 가지는 한 계속해서 나눠서 확인한다.
-        {
-            num /= i;
-            primeCnt[i]++;
-        }
+        std::cout << "Impossible input";
+        return;
     }
-    if(num > 1) primeCnt[num]++;  // 소수였다면 0이 안될것이다.
-}
+    *curr = currPages;
+};
 
-void Nums::PrintPrimeFactor(void)
+void book::setReadFlag(void)
 {
-    CountPrimeFactor();
-    unsigned* prime = GetPrimeCnt();
-    int num = GetNum();
-    size_t index = 2;
-    while(1)
-    {
-        if(index > num) break;
-        if(prime[index] == 0)
-        {
-            index++;
-            continue;
-        }
-        cout << index << ' ';
-        prime[index]--;
-    }
-}
+    bool& readFlag = getReadFlag();
+    readFlag = true;
+};
+
+void book::resetReadFlag(void)
+{
+    bool& readFlag = getReadFlag();
+    readFlag = false;
+};
